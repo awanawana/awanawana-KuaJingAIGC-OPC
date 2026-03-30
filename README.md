@@ -60,19 +60,32 @@ npm run dev
 ## 项目预览
 
 ### 前台首页
+> 暂无截图，可运行项目后在 `docs/images/` 目录添加 `homepage.png`
 ![Homepage](./docs/images/homepage.png)
+
+### 后台 - 数据概览
+![Dashboard](./docs/images/dashboard.png)
 
 ### 后台 - AI 选品
 ![AI Selection](./docs/images/ai-selection.png)
 
-### 后台 - AI 上品
+### 后台 - AI 上品 (含火山引擎视频生成)
 ![AI Listing](./docs/images/ai-listing.png)
 
-### 后台 - 销量预测
-![Sales Forecast](./docs/images/sales-forecast.png)
+### 后台 - 销量预测 (预测核心指标)
+![Sales Forecast 1](./docs/images/sales-forecast1.png)
 
-### 后台 - 数据概览
-![Dashboard](./docs/images/dashboard.png)
+### 后台 - 销量预测 (未来趋势)
+![Sales Forecast 2](./docs/images/sales-forecast2.png)
+
+### 后台 - ERP 货盘数据
+![ERP Data](./docs/images/erp-data.png)
+
+### 后台 - 竞品监控
+![Competitor Monitor](./docs/images/othermonitor.png)
+
+### 选品到上品联动 (视频演示)
+https://github.com/awanawana/KuaJingAIGC-OPC/blob/main/docs/images/all.mov
 
 ## 页面功能
 
