@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
@@ -55,10 +56,13 @@ export default function ProductPage() {
             animate={{ opacity: 1, x: 0 }}
           >
             <div className="aspect-square rounded-2xl overflow-hidden mb-4">
-              <img
+              <Image
                 src={product.images[selectedImage] || product.image}
                 alt={product.name}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
               />
             </div>
             <div className="flex gap-4">
@@ -70,7 +74,13 @@ export default function ProductPage() {
                     selectedImage === i ? "border-primary" : "border-transparent"
                   }`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  <Image 
+                    src={img} 
+                    alt="" 
+                    fill
+                    className="object-cover"
+                    sizes="80px"
+                  />
                 </button>
               ))}
             </div>
@@ -224,7 +234,7 @@ export default function ProductPage() {
                 <Link key={p.id} href={`/product/${p.id}`}>
                   <div className="bg-card rounded-2xl overflow-hidden card-hover">
                     <div className="aspect-square image-zoom">
-                      <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                      <Image src={p.image} alt={p.name} fill className="object-cover" sizes="(max-width: 768px) 50vw, 25vw" className="w-full h-full object-cover" />
                     </div>
                     <div className="p-4">
                       <h3 className="font-semibold mb-1">{p.name}</h3>
@@ -247,11 +257,15 @@ function ReviewCard({ review }: { review: Review }) {
   return (
     <div className="glass rounded-xl p-6">
       <div className="flex items-start gap-4">
-        <img
-          src={review.avatar}
-          alt={review.userName}
-          className="w-12 h-12 rounded-full object-cover"
-        />
+        <div className="w-12 h-12 relative rounded-full overflow-hidden flex-shrink-0">
+          <Image
+            src={review.avatar}
+            alt={review.userName}
+            fill
+            className="object-cover"
+            sizes="48px"
+          />
+        </div>
         <div className="flex-1">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">

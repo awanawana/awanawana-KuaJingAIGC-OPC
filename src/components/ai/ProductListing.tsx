@@ -42,18 +42,18 @@ export default function ProductListing({
     let keywords: string[] = [];
 
     if (cat.includes("hoodie") || cat.includes("卫衣")) {
-      keywords = platformKeywords.amazon.filter((k: any) => k.keyword.includes("hoodie")).map((k: any) => k.keyword);
+      keywords = platformKeywords.amazon.filter((k: KeywordData) => k.keyword.includes("hoodie")).map((k: KeywordData) => k.keyword);
     } else if (cat.includes("jacket") || cat.includes("外套")) {
-      keywords = platformKeywords.amazon.filter((k: any) => k.keyword.includes("jacket")).map((k: any) => k.keyword);
+      keywords = platformKeywords.amazon.filter((k: KeywordData) => k.keyword.includes("jacket")).map((k: KeywordData) => k.keyword);
     } else if (cat.includes("pants") || cat.includes("裤")) {
-      keywords = platformKeywords.amazon.filter((k: any) => k.keyword.includes("pants")).map((k: any) => k.keyword);
+      keywords = platformKeywords.amazon.filter((k: KeywordData) => k.keyword.includes("pants")).map((k: KeywordData) => k.keyword);
     }
 
     if (keywords.length === 0) {
-      keywords = platformKeywords.amazon.slice(0, 5).map((k: any) => k.keyword);
+      keywords = platformKeywords.amazon.slice(0, 5).map((k: KeywordData) => k.keyword);
     }
 
-    const tiktokTags = platformKeywords.tiktok.slice(0, 2).map((t: any) => t.keyword);
+    const tiktokTags = platformKeywords.tiktok.slice(0, 2).map((t: KeywordData) => t.keyword);
     return [...keywords, ...tiktokTags].join(", ");
   };
 

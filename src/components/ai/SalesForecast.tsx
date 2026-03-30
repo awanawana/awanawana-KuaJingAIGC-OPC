@@ -4,7 +4,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { TrendingUp, BarChart3, Calendar, Package, RefreshCw } from "lucide-react";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar } from "recharts";
-import { historicalSalesData, competitorSalesData, industryTrendData } from "@/lib/data";
+import { historicalSalesData } from "@/lib/data";
+import type { ForecastResult, HistoricalSalesRecord } from "@/types";
 
 interface Props {}
 
@@ -16,7 +17,7 @@ export default function SalesForecast() {
     targetMonth: "2026-06"
   });
   
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<ForecastResult | null>(null);
   const [isForecasting, setIsForecasting] = useState(false);
 
   const handleForecast = () => {
@@ -29,12 +30,12 @@ export default function SalesForecast() {
     
     setTimeout(() => {
       // 获取历史数据
-      const categoryHistory = historicalSalesData.filter((h: any) => h.category === product.category);
+      const categoryHistory = historicalSalesData.filter((h: HistoricalSalesRecord) => h.category === product.category);
       const avgSales = categoryHistory.length > 0
-        ? categoryHistory.reduce((sum: number, h: any) => sum + h.sales, 0) / categoryHistory.length
+        ? categoryHistory.reduce((sum: number, h: HistoricalSalesRecord) => sum + h.sales, 0) / categoryHistory.length
         : 5000;
       const avgGrowth = categoryHistory.length > 0
-        ? categoryHistory.reduce((sum: number, h: any) => sum + h.growth, 0) / categoryHistory.length
+        ? categoryHistory.reduce((sum: number, h: HistoricalSalesRecord) => sum + h.growth, 0) / categoryHistory.length
         : 10;
 
       // 模拟预测数据
@@ -230,7 +231,7 @@ export default function SalesForecast() {
           <div className="bg-card rounded-2xl p-6 border border-border">
             <h3 className="text-lg font-semibold mb-4">预测因素分析</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {result.factors.map((factor: any, i: number) => (
+              {result.factors.map((factor, i: number) => (
                 <div
                   key={i}
                   className={`p-4 rounded-xl border ${

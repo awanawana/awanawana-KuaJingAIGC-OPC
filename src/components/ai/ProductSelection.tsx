@@ -4,19 +4,18 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Sparkles, Search, ArrowRight, Copy, Check } from "lucide-react";
 import { aiProductSuggestions, platformKeywords } from "@/lib/data";
+import type { AITabType, AnalysisResult, KeywordData } from "@/types";
 
-type TabType = "product-selection" | "erp-sourcing" | "competitor-stores" | "competitor-analysis" | "product-listing" | "keywords" | "sales-forecast";
-
-interface Props {
-  onNavigate: (tab: TabType, params?: Record<string, string>) => void;
+interface ProductSelectionProps {
+  onNavigate: (tab: AITabType, params?: Record<string, string>) => void;
 }
 
-export default function ProductSelection({ onNavigate }: Props) {
+export default function ProductSelection({ onNavigate }: ProductSelectionProps) {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [targetMarket, setTargetMarket] = useState("全球");
-  const [priceRange, setPriceRange] = useState("全部");
-  const [analysisResults, setAnalysisResults] = useState<any[] | null>(null);
+  const [targetMarket, setTargetMarket] = useState<string>("全球");
+  const [priceRange, setPriceRange] = useState<string>("全部");
+  const [analysisResults, setAnalysisResults] = useState<AnalysisResult[] | null>(null);
   const [copied, setCopied] = useState(false);
 
   const handleAnalyze = () => {
@@ -135,7 +134,7 @@ export default function ProductSelection({ onNavigate }: Props) {
           <h3 className="text-xl font-semibold">推荐商品</h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {analysisResults.map((product: any, index: number) => (
+            {analysisResults.map((product, index: number) => (
               <motion.div
                 key={product.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -210,7 +209,7 @@ export default function ProductSelection({ onNavigate }: Props) {
           <div>
             <h4 className="text-sm font-medium mb-3 text-primary">Amazon 关键词</h4>
             <div className="space-y-2">
-              {platformKeywords.amazon.slice(0, 5).map((k: any, i: number) => (
+              {platformKeywords.amazon.slice(0, 5).map((k: KeywordData, i: number) => (
                 <div key={i} className="flex items-center justify-between text-sm">
                   <span className="text-gray-300">{k.keyword}</span>
                   <span className="text-primary">{k.volume.toLocaleString()}</span>
@@ -222,7 +221,7 @@ export default function ProductSelection({ onNavigate }: Props) {
           <div>
             <h4 className="text-sm font-medium mb-3 text-secondary">TikTok 趋势</h4>
             <div className="space-y-2">
-              {platformKeywords.tiktok.slice(0, 5).map((k: any, i: number) => (
+              {platformKeywords.tiktok.slice(0, 5).map((k: KeywordData, i: number) => (
                 <div key={i} className="flex items-center justify-between text-sm">
                   <span className="text-gray-300">{k.keyword}</span>
                   <span className="text-secondary">#{k.hashtag}</span>
@@ -234,7 +233,7 @@ export default function ProductSelection({ onNavigate }: Props) {
           <div>
             <h4 className="text-sm font-medium mb-3 text-accent">Reddit 讨论</h4>
             <div className="space-y-2">
-              {platformKeywords.reddit.slice(0, 5).map((k: any, i: number) => (
+              {platformKeywords.reddit.slice(0, 5).map((k: KeywordData, i: number) => (
                 <div key={i} className="flex items-center justify-between text-sm">
                   <span className="text-gray-300">{k.keyword}</span>
                   <span className="text-accent">{k.posts} 帖</span>

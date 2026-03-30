@@ -5,8 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Sparkles, Package, TrendingUp, BarChart3, Search, Settings, FileText } from "lucide-react";
 import { ProductSelection, ProductListing, SalesForecast } from "@/components/ai";
-
-type TabType = "product-selection" | "erp-sourcing" | "competitor-stores" | "competitor-analysis" | "product-listing" | "keywords" | "sales-forecast";
+import type { AITabType } from "@/types";
 
 const tabs = [
   { id: "product-selection", label: "AI 选品", icon: Sparkles },
@@ -25,9 +24,9 @@ function AIToolsContent() {
   const reasonParam = searchParams.get('reason');
   const categoryParam = searchParams.get('category');
 
-  const [activeTab, setActiveTab] = useState<TabType>((tabParam as TabType) || "product-selection");
+  const [activeTab, setActiveTab] = useState<AITabType>((tabParam as AITabType) || "product-selection");
 
-  const handleNavigate = (tab: TabType, params?: Record<string, string>) => {
+  const handleNavigate = (tab: AITabType, params?: Record<string, string>) => {
     setActiveTab(tab);
     // TODO: Update URL with params
     if (params) {
