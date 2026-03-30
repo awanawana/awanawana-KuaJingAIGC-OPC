@@ -1,9 +1,13 @@
-"use client";
-
+import type { Metadata } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { LayoutDashboard, ShoppingBag, Sparkles, Settings, LogOut, ChevronRight, Users, Sliders, ChevronDown, Package, Search, Database, BarChart3, Store, TrendingUp } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "管理后台 | NEXUS 跨境电商",
+  description: "NEXUS 电商管理后台，数据概览、AI智能选品、商品管理、访客分析",
+};
 
 const navItems = [
   { href: "/admin", label: "数据概览", icon: LayoutDashboard },
@@ -11,7 +15,6 @@ const navItems = [
   { href: "/admin/products", label: "商品管理", icon: ShoppingBag },
 ];
 
-// AI工具二级导航
 const aiToolItems = [
   { href: "/admin/ai?tab=product-selection", label: "AI选品", icon: Package },
   { href: "/admin/ai?tab=product-listing", label: "AI上品", icon: Sparkles },
@@ -19,7 +22,6 @@ const aiToolItems = [
   { href: "/admin/ai?tab=sales-forecast", label: "销量预测", icon: TrendingUp },
 ];
 
-// 数据洞察二级导航
 const dataInsightItems = [
   { href: "/admin/ai?tab=competitor-analysis", label: "竞品分析", icon: BarChart3 },
   { href: "/admin/ai?tab=erp-sourcing", label: "ERP货盘", icon: Store },
@@ -36,12 +38,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [aiToolsExpanded, setAiToolsExpanded] = useState(true);
   const [dataInsightsExpanded, setDataInsightsExpanded] = useState(true);
 
-  // 检查是否是AI工具相关页面
-  const isAiToolsPage = pathname.startsWith('/admin/ai');
-
   return (
     <div className="min-h-screen flex">
-      {/* Sidebar */}
       <aside className="w-64 bg-card border-r border-border flex flex-col">
         <div className="p-6 border-b border-border">
           <Link href="/" className="text-2xl font-bold gradient-text">
@@ -73,7 +71,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             })}
           </ul>
 
-          {/* AI工具展开区域 */}
           <div className="mt-4 pt-4 border-t border-border">
             <button
               onClick={() => setAiToolsExpanded(!aiToolsExpanded)}
@@ -87,19 +84,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {aiToolsExpanded && (
               <ul className="space-y-1 mt-1">
                 {aiToolItems.map((item) => {
-                  const itemPath = item.href.split('?')[0];
-                  const isCurrentItem = pathname === itemPath ||
-                    (pathname === '/admin/ai' && item.href.includes('product-selection'));
-
                   return (
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all ml-2 text-sm ${
-                          isCurrentItem
-                            ? "text-white font-medium"
-                            : "text-gray-400 hover:text-white hover:bg-white/5"
-                        }`}
+                        className="flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all ml-2 text-sm text-gray-400 hover:text-white hover:bg-white/5"
                       >
                         <item.icon className="w-4 h-4" />
                         <span>{item.label}</span>
@@ -111,7 +100,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             )}
           </div>
 
-          {/* 数据洞察展开区域 */}
           <div className="mt-2 pt-2 border-t border-border">
             <button
               onClick={() => setDataInsightsExpanded(!dataInsightsExpanded)}
@@ -125,18 +113,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {dataInsightsExpanded && (
               <ul className="space-y-1 mt-1">
                 {dataInsightItems.map((item) => {
-                  const itemPath = item.href.split('?')[0];
-                  const isActive = pathname === itemPath;
-
                   return (
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all ml-2 text-sm ${
-                          isActive
-                            ? "text-white font-medium"
-                            : "text-gray-400 hover:text-white hover:bg-white/5"
-                        }`}
+                        className="flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all ml-2 text-sm text-gray-400 hover:text-white hover:bg-white/5"
                       >
                         <item.icon className="w-4 h-4" />
                         <span>{item.label}</span>
@@ -152,11 +133,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="p-4 border-t border-border space-y-2">
           <Link
             href="/admin/ai-config"
-            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-              pathname === '/admin/ai-config'
-                ? "bg-primary text-white"
-                : "text-gray-400 hover:text-white hover:bg-white/5"
-            }`}
+            className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
           >
             <Sliders className="w-5 h-5" />
             <span>选品配置</span>
@@ -175,7 +152,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
       </aside>
 
-      {/* Main Content */}
       <main className="flex-1 overflow-auto">
         {children}
       </main>
