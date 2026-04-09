@@ -60,8 +60,7 @@ npm run dev
 ## 项目预览
 
 ### 前台首页
-> 暂无截图，可运行项目后在 `docs/images/` 目录添加 `homepage.png`
-![Homepage](./docs/images/homepage.png)
+![Homepage Demo](./docs/images/demo.mp4)
 
 ### 后台 - 数据概览
 ![Dashboard](./docs/images/dashboard.png)
