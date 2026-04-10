@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { LayoutDashboard, ShoppingBag, Sparkles, Settings, LogOut, ChevronRight, Users, Sliders, ChevronDown, Package, Search, Database, BarChart3, Store, TrendingUp } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { AuthProvider, useAuth } from "@/lib/auth-context";
+import { LayoutDashboard, ShoppingBag, Sparkles, Settings, LogOut, ChevronRight, Users, Sliders, ChevronDown, Package, Search, Database, BarChart3, Store, TrendingUp, Loader2, User } from "lucide-react";
 
 const navItems = [
   { href: "/admin", label: "数据概览", icon: LayoutDashboard },
@@ -32,12 +33,56 @@ const bottomNavItems = [
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <AuthProvider>
+      <AdminLayoutContent>{children}</AdminLayoutContent>
+    </AuthProvider>
+  );
+}
+
+function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, loading, logout } = useAuth();
   const [aiToolsExpanded, setAiToolsExpanded] = useState(true);
   const [dataInsightsExpanded, setDataInsightsExpanded] = useState(true);
 
+  // 检查是否是登录页面
+  const isLoginPage = pathname === "/admin/login";
+
   // 检查是否是AI工具相关页面
   const isAiToolsPage = pathname.startsWith('/admin/ai');
+
+  // 检查登录状态
+  useEffect(() => {
+    if (!loading && !user && !isLoginPage) {
+      router.push("/admin/login");
+    }
+  }, [user, loading, router, isLoginPage]);
+
+  // 加载中
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  // 登录页面不显示侧边栏
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
+
+  // 未登录不显示内容
+  if (!user) {
+    return null;
+  }
+
+  const handleLogout = async () => {
+    await logout();
+    router.push("/admin/login");
+  };
 
   return (
     <div className="min-h-screen flex">
@@ -161,17 +206,24 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Sliders className="w-5 h-5" />
             <span>选品配置</span>
           </Link>
-          <button className="flex items-center gap-3 px-4 py-3 rounded-lg w-full text-gray-400 hover:text-white hover:bg-white/5 transition-colors">
-            <Settings className="w-5 h-5" />
-            <span>设置</span>
-          </button>
           <Link
-            href="/"
+            href="/admin/users"
+            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+              pathname === '/admin/users'
+                ? "bg-primary text-white"
+                : "text-gray-400 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <Settings className="w-5 h-5" />
+            <span>账号管理</span>
+          </Link>
+          <button
+            onClick={handleLogout}
             className="flex items-center gap-3 px-4 py-3 rounded-lg w-full text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
           >
             <LogOut className="w-5 h-5" />
-            <span>返回店铺</span>
-          </Link>
+            <span>退出登录</span>
+          </button>
         </div>
       </aside>
 

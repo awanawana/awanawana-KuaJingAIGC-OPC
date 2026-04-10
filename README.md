@@ -57,6 +57,19 @@ npm run dev
 - 前台: http://localhost:3000
 - 后台: http://localhost:3000/admin
 
+## 后台登录
+
+首次使用后台需要登录：
+
+- **访问地址**: http://localhost:3000/admin
+- **默认账号**: `awanawan`
+- **默认密码**: `awanawan`
+
+登录后可进入「账号管理」页面：
+- 修改当前账号密码
+- 添加新的管理员账号
+- 删除其他管理员账号
+
 ## 项目预览
 
 ### 前台首页
