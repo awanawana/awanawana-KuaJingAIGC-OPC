@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Search, Package, TrendingUp, Zap, ArrowRight, Copy, Check, Store, BarChart3, Image, FileText, Settings, RefreshCw, ExternalLink, Users, Eye, DollarSign } from "lucide-react";
+import PublishButton from "@/components/tiktok/PublishButton";
 import { aiProductSuggestions, erpProductData, competitorStoreData, competitorAnalysis, platformKeywords, keywordSuggestions, historicalSalesData, competitorSalesData, industryTrendData, forecastWeightConfig } from "@/lib/data";
 import Link from "next/link";
 
@@ -1580,6 +1581,24 @@ function AIToolsContent() {
                   <Sparkles className="w-5 h-5" />
                   {isAnalyzing ? "AI生成中..." : "生成Listing"}
                 </button>
+
+                {/* TikTok Shop 发布按钮 */}
+                <PublishButton
+                  productData={{
+                    name: listingForm.productName,
+                    price: 0,
+                    category: listingForm.category,
+                    description: listingForm.features,
+                    images: [],
+                    sizes: ["S", "M", "L", "XL"],
+                    colors: ["Black", "White", "Gray"]
+                  }}
+                  listingData={{
+                    title: listingForm.productName,
+                    description: generateProductDescription(listingForm.productName, listingForm.category, listingForm.keywords),
+                    features: listingForm.features
+                  }}
+                />
               </div>
             </div>
 

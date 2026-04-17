@@ -27,9 +27,14 @@ const dataInsightItems = [
   { href: "/admin/ai?tab=competitor-stores", label: "竞品数据", icon: Database },
 ];
 
+// 配置中心二级导航
+const configItems = [
+  { href: "/admin/ai-config", label: "选品配置", icon: Sliders },
+  { href: "/admin/settings/tiktok", label: "TikTok Shop", icon: Store },
+];
+
 const bottomNavItems = [
   { href: "/admin/ai", label: "AI工具", icon: Sparkles },
-  { href: "/admin/ai-config", label: "选品配置", icon: Sliders },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -46,6 +51,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
   const { user, loading, logout } = useAuth();
   const [aiToolsExpanded, setAiToolsExpanded] = useState(true);
   const [dataInsightsExpanded, setDataInsightsExpanded] = useState(true);
+  const [configExpanded, setConfigExpanded] = useState(true);
 
   // 检查是否是登录页面
   const isLoginPage = pathname === "/admin/login";
@@ -192,20 +198,46 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
               </ul>
             )}
           </div>
+
+          {/* 配置中心展开区域 */}
+          <div className="mt-2 pt-2 border-t border-border">
+            <button
+              onClick={() => setConfigExpanded(!configExpanded)}
+              className="flex items-center gap-3 px-4 py-3 rounded-lg transition-all w-full text-gray-400 hover:text-white hover:bg-white/5"
+            >
+              <Settings className="w-5 h-5" />
+              <span className="flex-1 text-left">配置中心</span>
+              <ChevronDown className={`w-4 h-4 transition-transform ${configExpanded ? 'rotate-180' : ''}`} />
+            </button>
+
+            {configExpanded && (
+              <ul className="space-y-1 mt-1">
+                {configItems.map((item) => {
+                  const itemPath = item.href.split('?')[0];
+                  const isActive = pathname === itemPath || pathname.startsWith(itemPath);
+
+                  return (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all ml-2 text-sm ${
+                          isActive
+                            ? "text-white font-medium"
+                            : "text-gray-400 hover:text-white hover:bg-white/5"
+                        }`}
+                      >
+                        <item.icon className="w-4 h-4" />
+                        <span>{item.label}</span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </div>
         </nav>
 
         <div className="p-4 border-t border-border space-y-2">
-          <Link
-            href="/admin/ai-config"
-            className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-              pathname === '/admin/ai-config'
-                ? "bg-primary text-white"
-                : "text-gray-400 hover:text-white hover:bg-white/5"
-            }`}
-          >
-            <Sliders className="w-5 h-5" />
-            <span>选品配置</span>
-          </Link>
           <Link
             href="/admin/users"
             className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
